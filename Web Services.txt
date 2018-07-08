@@ -1,0 +1,141 @@
+
+Web services are of two kinds: 
+Simple Object Access Protocol (SOAP) and Representational State Transfer (REST). SOAP defines a standard communication protocol (set of rules) specification for XML-based message exchange. SOAP uses different transport protocols, such as HTTP and SMTP
+
+
+
+A web service is a software system designed for interoperable interaction over a network.
+
+Web Services are no more or less than distributed applications that runs across heterogeneous network using HTTP protocol and XML data formats
+
+A Web service client on one machine can call a service on a host machine some where across Internet without needing to worry about the platform, language or vendor of that service
+
+A web service is an abstract resource that provides a set of functions and is implemented by an agent, which sends and receives messages. 
+
+A provider entity provides the functionality of a web service with a provider agent and a requester entity uses the web service functionality with a requester agent. 
+
+Webservices are based on SOA
+
+Web services implement various technologies, some of which are XML, SOAP, and WSDL. 
+
+XML is a standard format for data exchange. Web service requests and responses are sent as XML messages. 
+
+The elements and attributes that may be specified in an XML document are specified in an XML Schema. 
+
+SOAP(Simple Object Access Protocol) provides a standard framework for packaging and exchanging XML messages. 
+
+A web service is defined with a WSDL (Web Services Description Language) document, and other systems interact with the web service using SOAP messages, transferred using HTTP with an XML serialization. 
+
+WSDL (Web Services Description Language) provide a way to describe their interfaces in enough detail to allow user to write a client program to access the service
+
+WSDL is an XML document in the http://schemas.xmlsoap.org/wsdl/ namespace for describing a web service as a set of endpoints operating on messages. 
+
+A WSDL document specifies the operations (methods) provided by a web service and the format of the XML messages.
+
+
+WSDL elements
+=============
+
+definitions --->Root element of a WSDL document. 
+
+types ----> Specifies data type definitions for the messages exchanged by the web service. XML Schema is the recommended type system. 
+
+message ----> Defines the data being transmitted. A message consists of one or more parts. A part is associated with a type. 
+
+
+portType --->  Defines a set of operations and the input-output messages for each operation.
+ 
+operation ---> An action (method) supported by the service. Each operation consists of input and output messages.
+ 
+input ---->  Specifies a message format for the request.
+ 
+output ----> Specifies a message format for the response.
+ 
+binding ----> Defines message format and protocol details for operations and messages for a particular portType. 
+
+service ---> Specifies a group of ports. 
+
+port ---->  Defines an endpoint by associating an address with a binding. 
+
+
+Create a PHP Web Service
+------------------------
+
+Download nusoap from Internet
+
+nusoap-0.7.3.zip
+
+Extract the above file and copy nusoap.php and all other extracted files to your application folder
+
+
+Server.php
+----------
+<?php
+require_once("nusoap.php");
+$ns="http://localhost:8082/PHPProj49/nusoap";
+$server = new soap_server();
+$server->configureWSDL('Nums',$ns);
+$server->wsdl->schemaTargetNamespace=$ns;
+$server->register('addNum',array('x'=>'xsd:int','y'=>'xsd:int'),array('return'=>'xsd:int'),$ns);
+$server->register('subNum',array('a'=>'xsd:float','b'=>'xsd:float'),array('return'=>'xsd:float'),$ns);
+
+function addNum($x,$y)
+{
+$res=$x+$y;
+return new soapval('return','xsd:int',$res);
+}
+
+function subNum($a,$b)
+{
+$res=$a-$b;
+return new soapval('return','xsd:float',$res);
+}
+$server->service($HTTP_RAW_POST_DATA);
+?>
+
+Start Apache Server and run server.php program or 
+
+Open browser and use the following URL to get the WSDL document for the above service
+
+http://localhost:8082/PHPProj49/Server.php?wsdl
+
+The above web service's service endpoint is 
+
+http://localhost:8082/PHPProj49/Server.php
+
+Design a C# Windows Application to consume the above web service
+----------------------------------------------------------------
+Open Visual Studio > Create a C# Windows Application > Add a form
+
+Add Web Reference [By right clicking on Project in Solutions Explorer ]: 
+http://localhost:8082/PHPProj49/Server.php?wsdl > Go
+
+Web reference Name is : localhost
+
+
+private void button1_Click(object sender, EventArgs e)
+{
+localhost.Nums obj = new localhost.Nums();
+int a=int.Parse(textBox1.Text);
+int b=int.Parse(textBox2.Text);
+int c = obj.addNum(a, b);
+
+textBox3.Text = c.ToString();
+}
+
+Client.php
+----------
+<?php
+require_once('nusoap.php');
+
+$wsdl="http://localhost:8082/PHPProj49/server.php?wsdl";
+
+$client=new soap_client($wsdl, 'wsdl');
+
+$param=array('a'=>10,'b'=>20); 
+echo $client->call('addNum', $param);
+
+?>
+
+***********************************************************************
+

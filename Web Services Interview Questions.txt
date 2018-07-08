@@ -1,0 +1,141 @@
+Web Services Interview Questions
+
+There is given frequently asked Web Services interview questions and answers that has been asked in many companies. Let's see the list of top Web Services interview questions.
+
+1) What is Web Service?
+
+Web Service is a software system for communicating two devices over the network. More details...
+
+2) How does a web service work?
+
+A web service is used to communicate among various applications by using open standards such as HTML, XML, WSDL, and SOAP. You can build a Java-based web service on Solaris that is accessible from your Visual Basic program that runs on Windows. You can also use C# to build new web services on Windows that can be invoked from your web application that is based on JavaServer Pages (JSP) and runs on Linux.
+
+3) What are the advantages of web services?
+
+Interoperability: By the help of web services, an application can communicate with other application developed in any language.
+Reusability: We can expose the web service so that other applications can use it.
+Modularity: By the help of web service, we can create a service for a specific task such as tax calculation etc.
+More details...
+4) What are the different types of web services?
+
+There are two types of web services:
+
+SOAP
+RESTful
+5) What are the main features of web services?
+
+Following is a list of main features of web services:
+
+It is available over the Internet or private (intranet) networks.
+It uses a standardized XML messaging system.
+It is not tied to any one operating system or programming language.
+It is self-describing via a common XML grammar.
+It is discoverable via a simple find mechanism.
+6) What is SOAP?
+
+SOAP stands for Simple Object Access Protocol. It is a XML-based protocol for accessing web services. More details...
+
+7) What are the advantages of SOAP web services?
+
+WS Security
+Language Independent
+Platform Independent
+More details...
+
+ 
+8) What are the disadvantages of SOAP web services?
+
+Slow
+WSDL Dependent
+More details...
+9) What are the main features of SOAP?
+
+The following list specifies the features of SOAP:
+
+SOAP is a communication protocol.
+SOAP is used for communication between applications.
+SOAP is a format for sending messages.
+SOAP is designed to communicate via Internet.
+SOAP is platform independent.
+SOAP is language independent.
+SOAP is simple and extensible.
+SOAP allows you to get around firewalls.
+SOAP will be developed as a W3C standard.
+10) What is WSDL?
+
+WSDL stands for Web Services Description Language. It is a xml document containing information about web services such as method name, method parameter etc. More details...
+
+11) What is UDDI?
+
+UDDI stands for Universal Description, Discovery and Integration. It is a XML based framework for describing, discovering and integrating web services. It contains a list of available web services. WSDL is the part of UDDI. More details...
+
+12) What is RESTful web services?
+
+REST stands for REpresentational State Transfer. It is a architectural style. It is not a protocol like SOAP. More details...
+
+13) What are the advantages of RESTful web services?
+
+Fast
+Language Independent
+Platform Independent
+Can use SOAP.
+Allows different data format.
+More details...
+12) What is the difference between SOAP and REST web services?
+
+No.	SOAP	REST
+1)	SOAP is a protocol.	REST is an architectural style.
+2)	SOAP stands for Simple Object Access Protocol.	REST stands for REpresentational State Transfer.
+3)	SOAP can't use REST because it is a protocol.	REST can use SOAP web services because it is a concept and can use any protocol like HTTP, SOAP.
+4)	SOAP uses services interfaces to expose the business logic.	REST uses URI to expose business logic.
+5)	SOAP defines standards to be strictly followed.	REST does not define too much standards like SOAP.
+6)	SOAP permits XML data format only.	REST permits different data format such as Plain text, HTML, XML, JSON etc.
+More details...
+13) What is SOA?
+
+SOA stands for Service Oriented Architecture. It is a design pattern to provide services to other application through protocol. More details...
+
+14) What tools are used to test web services?
+
+SoapUI tool for testing SOAP and RESTful web services
+Poster for firefox browser
+Postman extension for Chrome
+15) What is the advantage of XML in web service?
+
+In Web service, an XML is used to tag the data, format the data.
+
+16) What is the usage of WSDL in a web service?
+
+WSDL is used in web service to describe the availability of service.
+
+17) What is Interoperability in Web services?
+
+Web services facilitate various applications to communicate with each other and share data and services among themselves. Other applications can also use the web services. For example, a VB or .NET application can communicate with a Java web services and vice versa. Web services are used to make the application platform and technology independent.
+
+18) Explain the loosely coupled architecture of web services.
+
+A consumer of a web service is not tied to that web service directly. The web service interface can change over time without compromising the client's ability to interact with the service. A tightly coupled system implies that the client and server logic are closely tied to one another, implying that if one interface changes, the other must be updated. Adopting a loosely coupled architecture tends to make software systems more manageable and facilitates simpler integration between different systems.
+
+19) What are the advantages of having XML based Web services?
+
+Using XML eliminates any networking, operating system, or platform binding. So Web Services based applications are highly interoperable application at their core level.
+
+20) What do you mean by synchronicity?
+
+Synchronicity is used to bind the client to the execution of the service. In synchronous invocations, the client blocks and waits for the service to complete its operation before continuing. On the other hand, synchronous operations facilitate a client to invoke a service and then execute other functions.
+
+21) What is the usage of Service Transport Layer in Web service protocol stack?
+
+The Service Transport Layer is used to transport messages between applications.
+
+This layer includes Hyper Text Transport Protocol (HTTP), Simple Mail Transfer Protocol (SMTP), File Transfer Protocol (FTP), and newer protocols like Blocks Extensible Exchange Protocol (BEEP).
+
+22) What is the usage of Service Description layer in Web Service Protocol Stack?
+
+The Service Description layer is used to describe the public interface to a specific web service. Currently, service description is handled via the Web Service Description Language (WSDL).
+
+23) What is the usage of Service Discovery layer in Web Service Protocol Stack?
+
+The Service Discovery layer is used for centralizing services into a common registry and providing easy publish/find functionality.
+
+Currently, service discovery is handled via Universal Description, Discovery, and Integration (UDDI).

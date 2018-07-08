@@ -1,0 +1,163 @@
+
+Question: How to disable layout from controller?
+$this->_helper->layout()->disableLayout();
+
+
+Disable Zend Layout from controller for Ajax call only 
+if($this->getRequest()->isXmlHttpRequest()){
+    $this->_helper->layout()->disableLayout(); 
+}
+
+
+How to change the View render file from controller?
+function listAction(){
+    //call another view file file
+    $this->render("anotherViewFile");
+}
+
+
+
+ How to protect your site from sql injection in zend when using select query?
+$select = $this->select()                
+                ->from(array('u' => 'users'), array('id', 'username'))
+                ->where('name like ?',"%php%")
+                ->where('user_id=?','5')
+                ->where('rating<=?',10);
+
+
+
+How to check post method in zend framework?
+if($this->getRequest()->isPost()){
+    //Post
+}else{
+//Not post
+}
+
+
+How to get all POST data?
+$this->getRequest()->getPost();
+
+
+  
+How to get all GET data?
+$this->getRequest()->getParams();
+
+
+How to redirect to another page from controller?
+$this->_redirect('/users/login');
+
+
+How to get variable's value from get?
+$id= $this->getRequest()->getParam('id');
+
+
+Create Model file in zend framework?
+class Application_Model_Users extends Zend_Db_Table_Abstract {
+    protected $_name = "users";
+    protected $_primary = "id";      
+}
+
+
+How to create object of Model?
+$userObj = new Application_Model_Users();
+
+
+Which Class extend the Zend Controller?
+Zend_Controller_Action
+For Example
+class AjaxController extends Zend_Controller_Action {
+}
+
+
+Which Class extend the zend Model?
+Zend_Db_Table_Abstract
+For Example 
+class Application_Model_Users extends Zend_Db_Table_Abstract { } 
+
+
+What is a framework?
+In software development, a framework is a defined support structure in which another software project can be organized and developed.
+
+
+Why should we use framework?
+Framework is a structured system where we get following things
+Rapid application development(RAD).
+Source codes become more manageable.
+Easy to extend features.
+
+
+Where we set configuration in zend framework?
+We set the config in application.ini which is located in application/configs/application.ini.
+
+
+What is Front Controller?
+It used Front Controller pattern. zend also use singleton pattern.
+=> routeStartup: This function is called before Zend_Controller_Front calls on the router to evaluate the request.
+=> routeShutdown: This function is called after the router finishes routing the request.
+=> dispatchLoopStartup: This is called before Zend_Controller_Front enters its dispatch loop.
+=> preDispatch: called before an action is dispatched by the dispatcher.
+=> postDispatch: is called after an action is dispatched by the dispatcher.
+
+
+What is full form of CLA in Zend Framework?
+Contributor License Agreement
+
+
+Should I sign an individual CLA or a corporate CLA?
+If you are contributing code as an individual- and not as part of your job at a company- you should sign the individual CLA. If you are contributing code as part of your responsibilities as an employee at a company, you should submit a corporate CLA with the names of all co-workers that you foresee contributing to the project.
+
+
+  
+
+How to include js from controller and view in Zend?
+From within a view file: $this->headScript()->appendFile('filename.js'); From within a controller: $this->view->headScript()->appendFile('filename.js'); And then somewhere in your layout you need to echo out your headScript object: $this->headScript();
+
+
+What are Naming Convention for PHP File?
+1. There should not any PHP closing tag (?>)in controller & Model file.
+2. Indentation should consist of 4 spaces. Tabs are not allowed.
+3. The target line length is 80 characters, The maximum length of any line of PHP code is 120 characters.
+4. Line termination follows the Unix text file convention. Lines must end with a single linefeed (LF) character. Linefeed characters are represented as ordinal 10, or hexadecimal 0x0A
+
+
+What are Naming Convention for Classes, Interfaces, FileNames, Functions, Methods, Variables and constants?
+http://framework.zend.com/manual/1.11/en/coding-standard.naming-conventions.html 
+
+
+What are coding style of Zend Framework?
+http://framework.zend.com/manual/1.12/en/coding-standard.coding-style.html 
+
+
+What is Front Controller in Zend Framework?
+Zend used Front Controller pattern for rendering the data. It also use singleton pattern.
+=> routeStartup: This function is called before Zend_Controller_Front calls on the router to evaluate the request.
+=> routeShutdown: This function is called after the router finishes routing the request.
+=> dispatchLoopStartup: This is called before Zend_Controller_Front enters its dispatch loop.
+=> preDispatch: called before an action is dispatched by the dispatcher.
+=> postDispatch: is called after an action is dispatched by the dispatcher. 
+
+How to use update statemnet in Zend Framework?
+  class Application_Model_Users extends Zend_Db_Table_Abstract {
+    protected $_name = 'users';
+    protected $_primary = 'id';
+ 
+    function updateData($updateData = array()) {
+        //please update dynamic data
+        $this->update(array('name' => 'arun', 'type' => 'user'), array('id=?' => 10));
+    }
+}
+
+
+How we can do multiple column ordering in Zend Framework?
+  class Application_Model_Users extends Zend_Db_Table_Abstract {
+    protected $_name = 'users';
+    protected $_primary = 'id';
+ 
+    function users() {
+        $select = $this->select()
+        ->setIntegrityCheck(false)
+        ->from(array('u' => 'users'), array('name as t_name'))->order('first_name asc')->order('last_name des');
+         return $this->fetchAll($select);
+    }
+ 
+}

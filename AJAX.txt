@@ -1,0 +1,1066 @@
+AJAX
+====
+Asynchronous JavaScript and XML
+
+AJAX is not a new programming language, but a new technique for creating better, faster, and more interactive web applications.
+
+
+With AJAX, a JavaScript can communicate directly with the server, with the XMLHttpRequest object. With this object, a JavaScript can trade data with a web server, without reloading the page.
+
+
+AJAX uses asynchronous data transfer (HTTP requests) between the browser and the web server, allowing web pages to request small bits of information from the server 
+instead of whole pages.
+
+
+AJAX is based on the following web standards:
+
+JavaScript 
+XML 
+HTML 
+CSS 
+
+AJAX applications are browser- and platform-independent.
+
+
+AJAX XMLHttpRequest
+===================
+AJAX uses the XMLHttpRequest object
+
+To get or send information from/to a database or a file on the server with traditional JavaScript, you will have to make an HTML form, and a user will have to click 
+the "Submit" button to send/get the information, wait for the server to respond, then a new page will load with the results. Because the server returns a new page 
+each time the user submits input, traditional web applications can run slowly and tend to be less user-friendly.
+
+With AJAX, your JavaScript communicates directly with the server, through the JavaScript XMLHttpRequest object.
+
+With the XMLHttpRequest object, a web page can make a request to, and get a response from a web server - without reloading the page. The user will stay on the same page, 
+and he or she will not notice that scripts request pages, or send data to a server in the background.
+
+The XMLHttpRequest object is supported in all major browsers (Internet Explorer, Firefox, Chrome, Opera, and Safari).
+
+The JavaScript code for creating an XMLHttpRequest object:
+--------------------------
+
+For IE 7 & all other browsers
+
+xmlhttp=new XMLHttpRequest();
+
+For IE6
+
+xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+
+An XMLHttpRequest object has got 5 states
+0 - Uninitialized
+1 - Open
+2 - Sent
+3 - Receiving
+4 - Received/Loaded
+
+XMLHttpRequest object is registered with a callback method and that method will be automatically invoked whenever a state change happens to the XMLHttpRequest object
+
+
+
+NameTest.html
+-------------
+
+<html>
+<head>
+<style type="text/css">
+span
+{
+    color:yellow;
+    font-family:verdana;
+    font-size:20px;
+}
+</style>
+<script type="text/javascript">
+    var xmlhttp;
+
+function showHint(str)
+{
+//alert("Function Called--"+str);
+xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+xmlhttp.onreadystatechange=stateChanged;
+xmlhttp.open("GET","http://localhost:8082/PHPProj3/gethint.php?q="+str,true);
+xmlhttp.send(null);
+}
+
+function stateChanged()
+{
+//alert("Callback Method Called --"+xmlhttp.readystate);
+if (xmlhttp.readyState==4)
+{
+//alert("Received Response--"+xmlhttp.responseText);
+document.getElementById("txtHint").innerHTML=xmlhttp.responseText;
+}
+}
+</script>
+</head>
+<body bgcolor="green" text="white">
+
+<form>
+<h1> Name: <input type="text" id="txt1" onkeyup="showHint(this.value)" />
+
+<br><br>Suggestions: <span id="txtHint"></span>
+</h1>
+</form>
+</body>
+</html>
+
+gethint.php
+-----------
+
+<?php
+// Fill up array with names
+$a[]="Aby";
+$a[]="British";
+$a[]="Cinderella";
+$a[]="Diana";
+$a[]="Emanuel";
+$a[]="Florida";
+$a[]="Gunga";
+$a[]="Hedge";
+$a[]="Iby";
+$a[]="Johan";
+$a[]="Krishna";
+$a[]="Linda";
+$a[]="Nina";
+$a[]="Ouseph";
+$a[]="Pradeep";
+$a[]="Amanda";
+$a[]="Rama";
+$a[]="Cindrella";
+$a[]="David";
+$a[]="Eve";
+$a[]="Evita";
+$a[]="Sunniva";
+$a[]="Tove";
+$a[]="Unni";
+$a[]="Violet";
+$a[]="Liza";
+$a[]="Elizabeth";
+$a[]="Ellen";
+$a[]="Wikram";
+$a[]="Vicky";
+
+//get the q parameter from URL
+$q=$_GET["q"];
+
+//lookup all hints from array if length of q>0
+if (strlen($q) > 0)
+  {
+  $hint="";
+  for($i=0; $i<count($a); $i++)
+    {
+    if (strtolower($q)==strtolower(substr($a[$i],0,strlen($q))))
+      {
+      if ($hint=="")
+        {
+        $hint=$a[$i];
+        }
+      else
+        {
+        $hint=$hint." , ".$a[$i];
+        }
+      }
+    }
+  }
+// Set output to "no suggestion" if no hint were found
+// or to the correct values
+if ($hint == "")
+  {
+  $response="no suggestion";
+  }
+else
+  {
+  $response=$hint;
+  }
+
+//output the response
+echo $response;
+?> 
+
+Example#2
+
+
+userNameTest.html
+-----------------
+<html>
+<head>
+<script type="text/javascript">
+var xmlhttp;
+
+function userNameCheck(str)
+{
+xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+xmlhttp.onreadystatechange=stateChanged;
+xmlhttp.open("GET","validateUserName.php?uname="+str,true);
+xmlhttp.send();
+}
+
+function stateChanged()
+{
+if (xmlhttp.readyState==4)
+{
+if(xmlhttp.responseText=="0")
+document.getElementById("txt1").style.color="red";
+else
+document.getElementById("txt1").style.color="green";
+}
+}
+</script>
+</head>
+<body bgcolor="green" text="white">
+
+<form>
+<p style="font-family:verdana;font-size:22px">
+User Name: <input type="text" id="txt1" size="25" onblur="userNameCheck(this.value)" />
+<br><br>
+Password: <input type="password" name="txt2" size="25" />
+</p>
+</form>
+</body>
+</html>
+
+
+validateUserName.php
+--------------------
+<?php
+$str=$_REQUEST[uname];
+mysql_connect('localhost','root','');
+mysql_select_db(employee);
+$rs=mysql_query("select * from userTable where uname='".$str."'");
+if(mysql_num_rows($rs)>0)
+echo "1";
+else
+echo "0";
+?>
+
+
+Example#3
+
+create table country(cid int auto_increment primary key, cname varchar(25));
+
+insert into country(cname) values('India');
+
+create table state(sid int auto_increment primary key, sname varchar(25), cid int references country(cid));
+
+insert into state(sname,cid) values('Andhra Pradesh',1);
+insert into state(sname,cid) values('Tamil Nadu',1);
+insert into state(sname,cid) values('Karnataka',1);
+insert into state(sname,cid) values('Orissa',1);
+
+
+
+CountryTest.php
+---------------
+<html>
+<head>
+<script type="text/javascript">
+var xmlhttp;
+
+function fun1(cid)
+{
+xmlhttp=new ActiveXObject("Msxml2.XMLHTTP");
+xmlhttp.onreadystatechange=fun2;
+xmlhttp.open("GET","getState.php?cid="+str,true);
+xmlhttp.send();
+}
+
+function fun2()
+{
+if (xmlhttp.readyState==4)
+{
+str=xmlhttp.responseText;
+arr=str.split("/");
+for(i=0;i<arr.length;i++)
+{
+    document.getElementById('state').option[i]=new option(arr[i],i);
+}
+}
+}
+</script>
+</head>
+<body bgcolor="green" text="white">
+
+<form>
+<p style="font-family:verdana;font-size:22px">
+Country :: 
+<select onchange="fun2(this.value)">
+<?php
+mysql_connect('localhost','root','');
+mysql_select_db(employee);
+$rs=mysql_query("select * from country");
+while($row=mysql_fetch_row($rs))
+ echo "<option value=$rs[0]>$rs[1]</option>";
+?>
+</select>
+<br><br>
+State ::
+<select id="state">
+
+</select>
+</p>
+</form>
+</body>
+</html>
+
+
+getState.php
+------------
+<?php
+$str=$_REQUEST[cid];
+mysql_connect('localhost','root','');
+mysql_select_db(employee);
+$rs=mysql_query("select * from state where cid=".$str);
+$a="";
+while($row=mysql_fetch_row($rs))
+  $a=$a.$rs[1]."/";
+echo $a;
+?>
+
+
+PHP Example - AJAX and XML
+==========================
+
+CDSelect.html
+-------------
+
+<html>
+<head>
+<script type="text/javascript" src="selectcd.js"></script>
+</head>
+
+<body>
+
+<form>
+Select a CD:
+<select name="cds" onchange="showCD(this.value)">
+<option value="Bob Dylan">Bob Dylan</option>
+<option value="Bonnie Tyler">Bonnie Tyler</option>
+<option value="Dolly Parton">Dolly Parton</option>
+</select>
+</form>
+
+<div id="txtHint"><b>CD info will be listed here...</b></div>
+
+</body>
+</html>
+
+
+
+selectcd.js
+-----------
+
+var xmlhttp;
+
+function showCD(str)
+{
+xmlhttp=GetXmlHttpObject();
+if (xmlhttp==null)
+  {
+  alert ("Your browser does not support AJAX!");
+  return;
+  }
+var url="getcd.php";
+url=url+"?q="+str;
+url=url+"&sid="+Math.random();
+xmlhttp.onreadystatechange=stateChanged;
+xmlhttp.open("GET","http://localhost:8082/Project1/getcd.php?q="+str,true);
+xmlhttp.send(null);
+}
+
+function stateChanged()
+{
+if (xmlhttp.readyState==4)
+{
+document.getElementById("txtHint").innerHTML=xmlhttp.responseText;
+}
+}
+
+function GetXmlHttpObject()
+{
+if (window.XMLHttpRequest)
+  {
+  // code for IE7+, Firefox, Chrome, Opera, Safari
+  return new XMLHttpRequest();
+  }
+if (window.ActiveXObject)
+  {
+  // code for IE6, IE5
+  return new ActiveXObject("Microsoft.XMLHTTP");
+  }
+return null;
+}
+
+
+getcd.php
+---------
+
+<?php
+$q=$_GET["q"];
+
+$xmlDoc = new DOMDocument();
+$xmlDoc->load("cd_catalog.xml");
+
+$x=$xmlDoc->getElementsByTagName('ARTIST');
+
+for ($i=0; $i<=$x->length-1; $i++)
+{
+//Process only element nodes
+if ($x->item($i)->nodeType==1)
+  {
+  if ($x->item($i)->childNodes->item(0)->nodeValue == $q)
+    {
+    $y=($x->item($i)->parentNode);
+    }
+  }
+}
+
+$cd=($y->childNodes);
+
+for ($i=0;$i<$cd->length;$i++)
+{
+//Process only element nodes
+if ($cd->item($i)->nodeType==1)
+  {
+  echo($cd->item($i)->nodeName);
+  echo(": ");
+  echo($cd->item($i)->childNodes->item(0)->nodeValue);
+  echo("<br />");
+  }
+}
+?>
+
+
+cd_catalog.xml
+--------------
+<?xml version="1.0" ?>
+<?xml-stylesheet type="text/css" href="cd_catalog.css"?>
+<CATALOG>
+  <CD>
+    <TITLE>Empire Burlesque</TITLE>
+    <ARTIST>Bob Dylan</ARTIST>
+    <COUNTRY>USA</COUNTRY>
+    <COMPANY>Columbia</COMPANY>
+    <PRICE>10.90</PRICE>
+    <YEAR>1985</YEAR>
+  </CD>
+  <CD>
+    <TITLE>Hide your heart</TITLE>
+    <ARTIST>Bonnie Tylor</ARTIST>
+    <COUNTRY>UK</COUNTRY>
+    <COMPANY>CBS Records</COMPANY>
+    <PRICE>9.90</PRICE>
+    <YEAR>1988</YEAR>
+  </CD>
+  <CD>
+    <TITLE>Greatest Hits</TITLE>
+    <ARTIST>Dolly Parton</ARTIST>
+    <COUNTRY>USA</COUNTRY>
+    <COMPANY>RCA</COMPANY>
+    <PRICE>9.90</PRICE>
+    <YEAR>1982</YEAR>
+  </CD>
+  <CD>
+    <TITLE>Still got the blues</TITLE>
+    <ARTIST>Gary More</ARTIST>
+    <COUNTRY>UK</COUNTRY>
+    <COMPANY>Virgin redords</COMPANY>
+    <PRICE>10.20</PRICE>
+    <YEAR>1990</YEAR>
+  </CD>
+  <CD>
+    <TITLE>Eros</TITLE>
+    <ARTIST>Eros Ramazzotti</ARTIST>
+    <COUNTRY>EU</COUNTRY>
+    <COMPANY>BMG</COMPANY>
+    <PRICE>9.90</PRICE>
+    <YEAR>1997</YEAR>
+  </CD>
+  <CD>
+    <TITLE>One night only</TITLE>
+    <ARTIST>Bee Gees</ARTIST>
+    <COUNTRY>UK</COUNTRY>
+    <COMPANY>Polydor</COMPANY>
+    <PRICE>10.90</PRICE>
+    <YEAR>1998</YEAR>
+  </CD>
+  <CD>
+    <TITLE>Sylvias Mother</TITLE>
+    <ARTIST>Dr.Hook</ARTIST>
+    <COUNTRY>UK</COUNTRY>
+    <COMPANY>CBS</COMPANY>
+    <PRICE>8.10</PRICE>
+    <YEAR>1973</YEAR>
+  </CD>
+  <CD>
+    <TITLE>Maggie May</TITLE>
+    <ARTIST>Rod Stewart</ARTIST>
+    <COUNTRY>UK</COUNTRY>
+    <COMPANY>Pickwick</COMPANY>
+    <PRICE>8.50</PRICE>
+    <YEAR>1990</YEAR>
+  </CD>
+  <CD>
+    <TITLE>Romanza</TITLE>
+    <ARTIST>Andrea Bocelli</ARTIST>
+    <COUNTRY>EU</COUNTRY>
+    <COMPANY>Polydor</COMPANY>
+    <PRICE>10.80</PRICE>
+    <YEAR>1996</YEAR>
+  </CD>
+  <CD>
+    <TITLE>When a man loves a woman</TITLE>
+    <ARTIST>Percy Sledge</ARTIST>
+    <COUNTRY>USA</COUNTRY>
+    <COMPANY>Atlantic</COMPANY>
+    <PRICE>8.70</PRICE>
+    <YEAR>1987</YEAR>
+  </CD>
+  <CD>
+    <TITLE>Black angel</TITLE>
+    <ARTIST>Savage Rose</ARTIST>
+    <COUNTRY>EU</COUNTRY>
+    <COMPANY>Mega</COMPANY>
+    <PRICE>10.90</PRICE>
+    <YEAR>1995</YEAR>
+  </CD>
+  <CD>
+    <TITLE>1999 Grammy Nominees</TITLE>
+    <ARTIST>Many</ARTIST>
+    <COUNTRY>USA</COUNTRY>
+    <COMPANY>Grammy</COMPANY>
+    <PRICE>10.20</PRICE>
+    <YEAR>1999</YEAR>
+  </CD>
+  <CD>
+    <TITLE>For the good times</TITLE>
+    <ARTIST>Kenny Rogers</ARTIST>
+    <COUNTRY>UK</COUNTRY>
+    <COMPANY>Mucik Master</COMPANY>
+    <PRICE>8.70</PRICE>
+    <YEAR>1995</YEAR>
+  </CD>
+  <CD>
+    <TITLE>Big Willie style</TITLE>
+    <ARTIST>Will Smith</ARTIST>
+    <COUNTRY>USA</COUNTRY>
+    <COMPANY>Columbia</COMPANY>
+    <PRICE>9.90</PRICE>
+    <YEAR>1997</YEAR>
+  </CD>
+  <CD>
+    <TITLE>Tupelo Honey</TITLE>
+    <ARTIST>Van Morrison</ARTIST>
+    <COUNTRY>UK</COUNTRY>
+    <COMPANY>Polydor</COMPANY>
+    <PRICE>8.20</PRICE>
+    <YEAR>1971</YEAR>
+  </CD>
+  <CD>
+    <TITLE>Soulsville</TITLE>
+    <ARTIST>Jorn Hoel</ARTIST>
+    <COUNTRY>Norway</COUNTRY>
+    <COMPANY>WEA</COMPANY>
+    <PRICE>7.90</PRICE>
+    <YEAR>1996</YEAR>
+  </CD>
+  <CD>
+    <TITLE>The very best of</TITLE>
+    <ARTIST>Cat Stevens</ARTIST>
+    <COUNTRY>UK</COUNTRY>
+    <COMPANY>Island</COMPANY>
+    <PRICE>8.90</PRICE>
+    <YEAR>1990</YEAR>
+  </CD>
+  <CD>
+    <TITLE>Stop</TITLE>
+    <ARTIST>Sam Brown</ARTIST>
+    <COUNTRY>UK</COUNTRY>
+    <COMPANY>A and M</COMPANY>
+    <PRICE>8.90</PRICE>
+    <YEAR>1988</YEAR>
+  </CD>
+  <CD>
+    <TITLE>Bridge of Spies</TITLE>
+    <ARTIST>T`Pau</ARTIST>
+    <COUNTRY>UK</COUNTRY>
+    <COMPANY>Siren</COMPANY>
+    <PRICE>7.90</PRICE>
+    <YEAR>1987</YEAR>
+  </CD>
+  <CD>
+    <TITLE>Private Dancer</TITLE>
+    <ARTIST>Tina Turner</ARTIST>
+    <COUNTRY>UK</COUNTRY>
+    <COMPANY>Capitol</COMPANY>
+    <PRICE>8.90</PRICE>
+    <YEAR>1983</YEAR>
+  </CD>
+  <CD>
+    <TITLE>Midt om natten</TITLE>
+    <ARTIST>Kim Larsen</ARTIST>
+    <COUNTRY>EU</COUNTRY>
+    <COMPANY>Medley</COMPANY>
+    <PRICE>7.80</PRICE>
+    <YEAR>1983</YEAR>
+  </CD>
+  <CD>
+    <TITLE>Pavarotti Gala Concert</TITLE>
+    <ARTIST>Luciano Pavarotti</ARTIST>
+    <COUNTRY>UK</COUNTRY>
+    <COMPANY>DECCA</COMPANY>
+    <PRICE>9.90</PRICE>
+    <YEAR>1991</YEAR>
+  </CD>
+  <CD>
+    <TITLE>The dock of the bay</TITLE>
+    <ARTIST>Otis Redding</ARTIST>
+    <COUNTRY>USA</COUNTRY>
+    <COMPANY>Atlantic</COMPANY>
+    <PRICE>7.90</PRICE>
+    <YEAR>1987</YEAR>
+  </CD>
+  <CD>
+    <TITLE>Picture book</TITLE>
+    <ARTIST>Simply Red</ARTIST>
+    <COUNTRY>EU</COUNTRY>
+    <COMPANY>Elektra</COMPANY>
+    <PRICE>7.20</PRICE>
+    <YEAR>1985</YEAR>
+  </CD>
+  <CD>
+    <TITLE>Red</TITLE>
+    <ARTIST>The Communards</ARTIST>
+    <COUNTRY>UK</COUNTRY>
+    <COMPANY>London</COMPANY>
+    <PRICE>7.80</PRICE>
+    <YEAR>1987</YEAR>
+  </CD>
+  <CD>
+    <TITLE>Unchain my heart</TITLE>
+    <ARTIST>Joe Cocker</ARTIST>
+    <COUNTRY>USA</COUNTRY>
+    <COMPANY>EMI</COMPANY>
+    <PRICE>8.20</PRICE>
+    <YEAR>1987</YEAR>
+  </CD>
+</CATALOG>
+
+
+AJAX and MySQL
+==============
+
+Table Structure
+---------------
+
+id 
+FirstName 
+LastName 
+Age 
+Hometown 
+Job
+
+
+SelectDetails.html
+------------------
+
+<html>
+<head>
+<script type="text/javascript" src="selectuser.js"></script>
+</head>
+<body>
+
+<form>
+Select a User:
+<select name="users" onchange="showUser(this.value)">
+<option value="1">Peter Griffin</option>
+<option value="2">Lois Griffin</option>
+<option value="3">Glenn Quagmire</option>
+<option value="4">Joseph Swanson</option>
+</select>
+</form>
+<br />
+<div id="txtHint"><b>Person info will be listed here.</b></div>
+
+</body>
+</html>  
+
+
+selectuser.js
+-------------
+
+var xmlhttp;
+
+function showUser(str)
+{
+xmlhttp=GetXmlHttpObject();
+if (xmlhttp==null)
+  {
+  alert ("Browser does not support HTTP Request");
+  return;
+  }
+var url="getuser.php";
+url=url+"?q="+str;
+url=url+"&sid="+Math.random();
+xmlhttp.onreadystatechange=stateChanged;
+xmlhttp.open("GET",url,true);
+xmlhttp.send(null);
+}
+
+function stateChanged()
+{
+if (xmlhttp.readyState==4)
+{
+document.getElementById("txtHint").innerHTML=xmlhttp.responseText;
+}
+}
+
+function GetXmlHttpObject()
+{
+if (window.XMLHttpRequest)
+  {
+  // code for IE7+, Firefox, Chrome, Opera, Safari
+  return new XMLHttpRequest();
+  }
+if (window.ActiveXObject)
+  {
+  // code for IE6, IE5
+  return new ActiveXObject("Microsoft.XMLHTTP");
+  }
+return null;
+} 
+
+
+getuser.php
+-----------
+
+<?php
+$q=$_GET["q"];
+
+$con = mysql_connect('localhost', 'root', '');
+if (!$con)
+  {
+  die('Could not connect: ' . mysql_error());
+  }
+
+mysql_select_db("ajax_demo", $con);
+
+$sql="SELECT * FROM user WHERE id = '".$q."'";
+
+$result = mysql_query($sql);
+
+echo "<table border='1'>
+<tr>
+<th>Firstname</th>
+<th>Lastname</th>
+<th>Age</th>
+<th>Hometown</th>
+<th>Job</th>
+</tr>";
+
+while($row = mysql_fetch_array($result))
+  {
+  echo "<tr>";
+  echo "<td>" . $row['FirstName'] . "</td>";
+  echo "<td>" . $row['LastName'] . "</td>";
+  echo "<td>" . $row['Age'] . "</td>";
+  echo "<td>" . $row['Hometown'] . "</td>";
+  echo "<td>" . $row['Job'] . "</td>";
+  echo "</tr>";
+  }
+echo "</table>";
+
+mysql_close($con);
+?>  
+
+
+
+Sending XML Response Back
+=========================
+
+CountriesList.html
+------------------
+
+<html>
+<head>
+<script type="text/javascript">
+var XmlHttp;
+function retrievecountries()
+{
+XmlHttp=new ActiveXObject("Microsoft.XMLHTTP");;
+var continent=document.getElementById("continents");
+alert(continent.value);
+XmlHttp.onreadystatechange = countriesCallback;
+XmlHttp.open("GET","http://localhost:8082/Project1/RetrieveData.php?continent="+continent,true);
+XmlHttp.send(null);
+}
+
+function retrieveCities()
+{
+XmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
+var country=document.getElementById("countries");
+XmlHttp.onreadystatechange = citiesCallback;
+XmlHttp.open("GET","http://localhost:8082/Project1/RetrieveData.php?country="+country,true);
+XmlHttp.send(null);
+}
+
+function retrieveLocations()
+{
+XmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
+var city=document.getElementById("city");
+XmlHttp.open("GET","http://localhost:8082/Project1/RetrieveData.php?city="+city,true);
+XmlHttp.send(null);
+}
+
+function countriesCallback()
+{
+//alert("Call Back");
+//alert(XmlHttp.readyState);
+if(XmlHttp.readyState==4)
+{
+var resp=XmlHttp.responseXML.getElementsByTagName("country");
+alert("Data Received--"+resp);
+
+var countriesList=document.getElementById("countriesList");
+var str="Select Country <select name='countries' onChange='retrieveCities()'>";
+var len=resp.length;
+alert(len);
+var i=0;
+for(i=0;i<len;i++)
+{
+var data = resp[i].firstChild.data;
+alert(data);
+str=str+"<option value="+data+">"+data+"</option>";
+}
+str=str+"</select>";
+countriesList.innerHTML=str;
+}
+}
+
+function locationsCallback()
+{
+alert("locations Callback");
+if(XmlHttp.readyState==4)
+{
+alert(4);
+if(XmlHttp.status==200)
+{
+alert(200);
+var response=XmlHttp.responseXML.getElementsByTagName("location");
+alert(response);
+var countriesList=document.getElementById("locationsList");
+var str="Select Location:: <select name='locations' onchange=retrieveLocations>";
+var len=response.length;
+alert(len);
+var i=0;
+for(i=0;i<len;i++)
+{
+var data = resp[i].firstChild.data;
+alert(data);
+str=str+"<option value="+data+">"+data+"</option>";
+}
+str=str+"</select>";
+countriesList.innerHTML=str;
+}
+}
+}
+</script>
+</head>
+<body bgcolor=pink>
+<h1 align=center>
+AJAX Country List Demo
+</h1>
+<h3>
+Select Continent ::
+<select name="continents" onChange="retrievecountries()" >
+<option value="Asia">Asia</option>
+<option value="Africa">Africa</option>
+<option value="America">North</option>
+</select>
+<div id="countriesList"></div>
+<div id="citiesList"></div>
+<div id="locationList"></div>
+</h3>
+</body>
+
+</body>
+</html>
+
+
+RetrieveData.php
+----------------
+
+<?php
+if($_REQUEST["continent"] !=null)
+{			
+echo("<countries>");
+echo("<country>INDIA</country>");
+echo("<country>Pakistan</country>");
+echo("<country>Bangladesh</country>");
+echo("<country>England</country>");
+echo("<country>Australia</country>");
+echo("</countries>");
+}
+
+else if($_REQUEST["country"] !=null )
+{
+echo("<cities>");
+echo("<city>Hyderabad</city>");
+echo("<city>Bangalure</city>");
+echo("<city>Pune</city>");
+echo("<city>Mumbai</city>");
+echo("<city>Delhi</city>");
+echo("</cities>");		
+}
+
+else if($_REQUEST["city"]!=null)
+{
+echo("<locations>");
+echo("<location>Ameerpet</location>");
+echo("<location>Banjara Hills</location>");
+echo("<location>Jubilee Hills</location>");
+echo("<location>Nampally</location>");
+echo("<location>Panjagutta</location>");
+echo("</locations>");		
+}
+?>
+
+
+AJAX Example-5
+--------------
+userNameTest.html
+-----------------
+<html>
+<head>
+<script type="text/javascript">
+var xmlhttp;
+
+function userNameCheck(str)
+{
+xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+xmlhttp.onreadystatechange=stateChanged;
+xmlhttp.open("GET","validateUserName.php?uname="+str,true);
+xmlhttp.send();
+}
+
+function stateChanged()
+{
+if (xmlhttp.readyState==4)
+{
+if(xmlhttp.responseText=="0")
+document.getElementById("txt1").style.color="red";
+else
+document.getElementById("txt1").style.color="green";
+}
+}
+</script>
+</head>
+<body bgcolor="green" text="white">
+
+<form>
+<p style="font-family:verdana;font-size:22px">
+User Name: <input type="text" id="txt1" size="25" onblur="userNameCheck(this.value)" />
+<br><br>
+Password: <input type="password" name="txt2" size="25" />
+</p>
+</form>
+</body>
+</html>
+
+
+validateUserName.php
+--------------------
+<?php
+$str=$_REQUEST[uname];
+mysql_connect('localhost','root','');
+mysql_select_db(employee);
+$rs=mysql_query("select * from userTable where uname='".$str."'");
+if(mysql_num_rows($rs)>0)
+echo "1";
+else
+echo "0";
+?>
+
+
+AJAX Example -6
+---------------
+create table country(cid int auto_increment primary key, cname varchar(25));
+
+insert into country(cname) values('India');
+
+create table state(sid int auto_increment primary key, sname varchar(25), cid int references country(cid));
+
+insert into state(sname,cid) values('Andhra Pradesh',1);
+insert into state(sname,cid) values('Tamil Nadu',1);
+insert into state(sname,cid) values('Karnataka',1);
+insert into state(sname,cid) values('Orissa',1);
+
+
+
+CountryTest.php
+---------------
+<html>
+<head>
+<script type="text/javascript">
+var xmlhttp;
+
+function fun1(cid)
+{
+xmlhttp=new ActiveXObject("Msxml2.XMLHTTP");
+xmlhttp.onreadystatechange=fun2;
+xmlhttp.open("GET","getState.php?cid="+str,true);
+xmlhttp.send();
+}
+
+function fun2()
+{
+if (xmlhttp.readyState==4)
+{
+str=xmlhttp.responseText;
+arr=str.split("/");
+for(i=0;i<arr.length;i++)
+{
+    document.getElementById('state').option[i]=new option(arr[i],i);
+}
+}
+}
+</script>
+</head>
+<body bgcolor="green" text="white">
+
+<form>
+<p style="font-family:verdana;font-size:22px">
+Country :: 
+<select onchange="fun2(this.value)">
+<?php
+mysql_connect('localhost','root','');
+mysql_select_db(employee);
+$rs=mysql_query("select * from country");
+while($row=mysql_fetch_row($rs))
+ echo "<option value=$rs[0]>$rs[1]</option>";
+?>
+</select>
+<br><br>
+State ::
+<select id="state">
+
+</select>
+</p>
+</form>
+</body>
+</html>
+
+
+getState.php
+------------
+<?php
+$str=$_REQUEST[cid];
+mysql_connect('localhost','root','');
+mysql_select_db(employee);
+$rs=mysql_query("select * from state where cid=".$str);
+$a="";
+while($row=mysql_fetch_row($rs))
+  $a=$a.$rs[1]."/";
+echo $a;
+?>

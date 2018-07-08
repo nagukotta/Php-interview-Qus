@@ -1,0 +1,3 @@
+SELECT e.name,e.address,c.city,s.state,a.country from emp e INNER JOIN city c on e.cid=c.cid 
+INNER JOIN state s on e.sid=s.sid
+INNER JOIN country a on e.ccid=a.ccid

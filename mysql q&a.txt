@@ -1,0 +1,259 @@
+PHP: 5.2, MYSQL: 5.1 , APACHE : 2.2
+MYSQL:-
+
+1.how can find second highest salary ?
+select salary from employees e where 1=(select count(*) from employees where e.salary <salary )
+
+2.Differences between MYISAM and InnoDB ENGINE:-
+
+MYISAM does not support the foreign key constraint and
+transaction but InnoDB support it.
+
+MYISAM is faster then the InnoDB but in case of perforing
+the count operation it takes more time then the InnoDB.
+
+MYISAM occupies less memory sapce for tables rather than
+InnoDB tables
+
+3.
+Groupby: It is a way to sub-total your results,or perform 
+some other 'aggregate' functions on them 
+
+ex:-
+ SELECT student_name, AVG(test_score)
+           FROM student
+           GROUP BY student_name
+	
+	
+
+orderby: order by use for sorting the result,like ascendin or dcending.
+PHP :-
+
+
+4. Joins
+
+The INNER JOIN keyword return rows when there is at least one match in both tables. If there are rows in "Persons" that do not have matches in "Orders", those rows will NOT be listed.
+
+The LEFT JOIN keyword returns all rows from the left table (table_name1), even if there are no matches in the right table (table_name2).
+
+
+The RIGHT JOIN keyword returns all the rows from the right table (table_name2), even if there are no matches in the left table (table_name1).
+
+
+The FULL JOIN keyword return rows when there is a match in one of the tables.
+
+5.having is used when the condition has to be applied on the result of a group by clause.
+
+6.Database triggers are SQL statements storing in the database catalog. Once a trigger is activated by database events such as UPDATE, DELETE or INSERT, it will execute either before or after the event that initiated it.
+
+1.ob_start:-
+This function will turn output buffering on. While output buffering is active no output is sent from the script (other than headers), instead the output is stored in an internal buffer
+
+2.ob_flush:-
+This function will send the contents of the output buffer (if any). If you want to further process the buffer's contents you have to call ob_get_contents() before ob_flush() as the buffer contents are discarded after ob_flush() is called.
+
+3.Constructors:-
+Constructors are functions in a class that are automatically called when you create a new instance of a class with new. A function becomes a constructor, when it has the same name as the class. If a class has no constructor, the constructor of the base class will be called, if it exists
+
+4. Overloading
+.The Methods with the same name but it differs by types of arguments and no,,of arguments.
+.Overloading is Static Polymorphism.
+.Overloading refers to situation where there are two or more methods in a class with the same name but with different parameters list.
+
+Overriding
+.The Methods with the same name and same no,,of arguments and types,but one is in base class and second one is in derived class.
+.Overriding is dynamic Polymorphism.
+.Overriding refers to a situation where sub-class inherits a method from Base class which may result into adding or changing the method behavior
+
+ex:-<?php
+
+class Foo {
+   function myFoo() {
+      return "Foo";
+   }
+}
+
+class Bar extends Foo {
+   function myFoo() {
+      return "Bar";
+   }
+}
+
+$foo = new Foo;
+$bar = new Bar;
+echo($foo->myFoo()); //"Foo"
+echo($bar->myFoo()); //"Bar"
+
+
+5.explain public private protected in php
+
+private - Only the current class will have access to the field or method.
+
+protected - Only the current class and subclasses (and sometimes also same-package classes) of this class will have access to the field or method.
+
+public - Any class can refer to the field or call the method
+
+
+6.Interface
+Interface is a class with a list of methods which must be created in classes where it is implemented.
+An interface is declared with the interface keyword. It can contain constants and method declarations, but not method bodies
+
+
+7.What is Normalization?
+Normalization is the process of efficiently organizing data in a database. There are two goals of the normalization process: eliminating redundant data (for example, storing the same data in more than one table) and ensuring data dependencies make sense (only storing related data in a table). Both of these are worthy goals 
+
+8.serialize() Generates a storable representation of a value
+This is useful for storing or passing PHP values around without losing their type and structure
+ 
+unserialize() can use this string to recreate the original variable values.  
+
+9.Explain about encapsulation?
+Encapsulation passes the message without revealing the exact functional details of the class. It allows only the relevant information to the user without revealing the functional mechanism through which a particular class had functioned.
+
+10.Explain about abstraction?
+Abstraction simplifies a complex problem to a simpler problem by specifying and modeling the class to the relevant problem scenario. It simplifies the problem by giving the class its specific class of inheritance. 
+
+11.Explain the mechanism of composition?
+Composition helps to simplify a complex problem into an easier problem. It makes different classes and objects to interact with each other thus making the problem to be solved automatically. It interacts with the problem by making different classes and objects to send a message to each other
+
+12.Explain what a method is?
+A method will affect only a particular object to which it is specified. Methods are verbs meaning they define actions which a particular object will perform
+
+13.PHP Design Patterns:
+A design pattern is like a template which guides us to solve a problem. Design patterns are not finished design that can be transformed directly into code. In Object Oriented based design patterns we can get the interactions and relationships between classes or objects
+
+
+14.UML stands for Unifed Modeling Language.UML is used to manage large and complex systems.
+With UML you can:
+    Manage project complexity.
+    create database schema.
+    Produce reports.
+
+15.__set() is run when writing data to inaccessible properties.
+
+   __get() is utilized for reading data from inaccessible    properties
+
+16.A friend function is a non member function of a class, that
+is declared as a friend using the keyword "friend" inside the class. All the access permissions are given to the function.
+
+17.
+Abstract class: abstract classes are the class where one or more
+methods are abstract but not necessarily all method has to be abstract.
+Abstract methods are the methods, which are declare in its class but not define. The definition of those methods must be in its extending class.
+Interface: Interfaces are one type of class where all the methods are abstract. That means all the methods only declared but not defined. All the methods must be define by its implemented class.
+
+
+18.
+The split() function splits the string into an array using a regular expression and returns an array. 
+<?php print_r(str_split("Hello")); ?>
+OUTPUT :-
+Array
+(
+[0] => H
+[1] => e
+[2] => l
+[3] => l
+[4] => o
+)
+ 
+
+The explode() function splits the string by string.
+<?php
+$str = "Hello world. It's a beautiful day.";
+print_r (explode(" ",$str));
+?>
+OUTPUT:-
+Array
+(
+[0] => Hello
+[1] => world.
+[2] => It's
+[3] => a
+[4] => beautiful
+[5] => day.
+) 
+
+
+19.
+.htaccess files provide a way to make configuration changes on a per-directory basis. A file, containing one or more configuration directives, is placed in a particular document directory, and the directives apply to that directory, and all subdirectories thereof
+
+ARRAY FUNCTIONS :
+
+1. in_array— Checks if a value exists in an array
+
+<?php
+$os = array("Mac", "NT", "Irix", "Linux");
+if (in_array("Irix", $os)) {
+    echo "Got Irix";
+}
+?>
+
+2. array_pop — Pop the element off the end of array
+<?php
+$stack = array("orange", "banana", "apple", "raspberry");
+$fruit = array_pop($stack);
+print_r($stack);
+?>
+OUT PUT :
+Array
+(
+    [0] => orange
+    [1] => banana
+    [2] => apple
+)
+
+3.array_push — Push one or more elements onto the end of array<?php
+$stack = array("orange", "banana");
+array_push($stack, "apple", "raspberry");
+print_r($stack);
+?> 
+OUTPUT
+Array
+(
+    [0] => orange
+    [1] => banana
+    [2] => apple
+    [3] => raspberry
+)
+
+?  array_unique — Removes duplicate values from an array
+<?php
+$input = array("a" => "green", "red", "b" => "green", "blue", "red");
+$result = array_unique($input);
+print_r($result);?>
+
+?  array_unshift — Prepend one or more elements to the beginning of an array
+?  array_values — Return all the values of an array
+?  array_walk_recursive — Apply a user function recursively to every member of an array
+?  array_walk — Apply a user function to every member of an array
+?  array — Create an array
+?  arsort — Sort an array in reverse order and maintain index association
+?  asort — Sort an array and maintain index association
+?  compact — Create array containing variables and their values
+?  count — Count all elements in an array, or something in an object
+?  current — Return the current element in an array
+?  each — Return the current key and value pair from an array and advance the array cursor
+?  end — Set the internal pointer of an array to its last element
+?  extract — Import variables into the current symbol table from an array
+?  in_array — Checks if a value exists in an array
+?  key — Fetch a key from an array
+?  krsort — Sort an array by key in reverse order
+?  ksort — Sort an array by key
+?  list — Assign variables as if they were an array
+?  natcasesort — Sort an array using a case insensitive "natural order" algorithm
+?  natsort — Sort an array using a "natural order" algorithm
+?  next — Advance the internal array pointer of an array
+?  pos — Alias of current
+?  prev — Rewind the internal array pointer
+?  range — Create an array containing a range of elements
+?  reset — Set the internal pointer of an array to its first element
+?  rsort — Sort an array in reverse order
+?  shuffle — Shuffle an array
+?  sizeof — Alias of count
+?  sort — Sort an array
+?  uasort — Sort an array with a user-defined comparison function and maintain index association
+?  uksort — Sort an array by keys using a user-defined comparison function
+?  usort — Sort an array by values using a user-defined comparison function
+
+
+
